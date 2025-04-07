@@ -57,17 +57,14 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: regretboard-image
+          path: .
 
       - name: Download Compose file
         uses: actions/download-artifact@v4
         with:
           name: compose-file
+          path: .
 
-      - name: List files in workspace (debugging step)
-        run: ls -alh
-
-      - name: Where are we (debugging step)
-        run: pwd
 
       - name: Copy image + compose to server
         uses: appleboy/scp-action@v0.1.4
@@ -79,8 +76,6 @@ jobs:
             regretboard.tar.gz
             docker-compose.yml
           target: /home/ubuntu/
-          strip_components: 0
-        working-directory: ${{ github.workspace }}
 
   deploy:
     runs-on: ubuntu-latest
