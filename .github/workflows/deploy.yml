@@ -63,14 +63,16 @@ jobs:
         with:
           name: compose-file
 
-      - name: Transfer files using rsync over SSH
-        uses: appleboy/ssh-action@v1.0.0
+      - name: List files in workspace (debugging step)
+        run: ls -alh
+
+      - name: Copy image + compose to server
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            rsync -avz regretboard.tar.gz docker-compose.yml ubuntu@${{ secrets.REMOTE_HOST }}:/home/ubuntu/
+          target: /home/ubuntu/
 
   deploy:
     runs-on: ubuntu-latest
