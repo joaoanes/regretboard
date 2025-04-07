@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: regrets
+      POSTGRES_USER: regretadmin
+      POSTGRES_PASSWORD: neveragain
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/regretsboard/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  app:
+    image: regretboard:latest
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/regrets
+      SPRING_DATASOURCE_USERNAME: regretadmin
+      SPRING_DATASOURCE_PASSWORD: neveragain
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
