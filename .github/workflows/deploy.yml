@@ -63,6 +63,15 @@ jobs:
         with:
           name: compose-file
 
+      - name: List files in workspace (debugging step)
+        run: ls -alh
+
+      - name: List files in workspace (debugging step)
+        run: ls /home/runner/work/regretboard/regretboard
+
+      - name: Where are we (debugging step)
+        run: pwd
+
       - name: Copy image + compose to server
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -70,8 +79,8 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: |
-            regretboard/regretboard/regretboard.tar.gz
-            regretboard/regretboard/docker-compose.yml
+            regretboard.tar.gz
+            docker-compose.yml
           target: /home/ubuntu/
 
   deploy:
