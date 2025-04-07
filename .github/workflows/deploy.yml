@@ -66,12 +66,19 @@ jobs:
       - name: List files in workspace (debugging step)
         run: ls -alh
 
-      - name: Copy image + compose to server
+      - name: List files in workspace (debugging step)
+        run: ls /home/runner/work/regretboard/regretboard
+
+      - name: Where are we (debugging step)
+        run: pwd
+
+      - name: Copy image to server
         uses: appleboy/scp-action@v0.1.4
         with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ubuntu
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ env.REMOTE_HOST }}
+          username: ${{ env.REMOTE_USER }}
+          key: ${{ env.SSH_KEY }}
+          source: regretboard.tar.gz
           target: /home/ubuntu/
 
   deploy:
