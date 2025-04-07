@@ -57,14 +57,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: regretboard-image
-          path: .
 
       - name: Download Compose file
         uses: actions/download-artifact@v4
         with:
           name: compose-file
-          path: .
-
 
       - name: Copy image + compose to server
         uses: appleboy/scp-action@v0.1.4
@@ -73,8 +70,8 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: |
-            regretboard.tar.gz
-            docker-compose.yml
+            regretboard/regretboard/regretboard.tar.gz
+            regretboard/regretboard/docker-compose.yml
           target: /home/ubuntu/
 
   deploy:
