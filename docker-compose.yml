@@ -17,7 +17,7 @@ services:
     image: regretboard:latest
     build: .
     ports:
-      - "8080:8080"
+      - "80:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/regrets
       SPRING_DATASOURCE_USERNAME: regretadmin
