@@ -45,6 +45,12 @@ jobs:
           name: compose-file
           path: docker-compose.yml
 
+      - name: Upload init file
+        uses: actions/upload-artifact@v4
+        with:
+          name: init-sql
+          path: docker/init.sql
+
       - name: Set image name
         id: set-image
         run: echo "image-name=regretboard:latest" >> $GITHUB_OUTPUT
@@ -69,14 +75,10 @@ jobs:
         with:
           name: compose-file
 
-      - name: List files in workspace (debugging step)
-        run: ls -alh
-
-      - name: List files in workspace (debugging step)
-        run: ls /home/runner/work/regretboard/regretboard
-
-      - name: Where are we (debugging step)
-        run: pwd
+      - name: Download Compose file
+        uses: actions/download-artifact@v4
+        with:
+          name: init-sql
 
       - name: Copy image to server
         uses: appleboy/scp-action@v0.1.4
@@ -95,6 +97,15 @@ jobs:
           key: ${{ env.SSH_PRIVATE_KEY }}
           source: docker-compose.yml
           target: /home/ubuntu/
+
+      - name: Copy init file to server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ env.REMOTE_HOST }}
+          username: ${{ env.REMOTE_USER }}
+          key: ${{ env.SSH_PRIVATE_KEY }}
+          source: init.sql
+          target: /home/ubuntu/docker
 
   deploy:
     runs-on: ubuntu-latest
