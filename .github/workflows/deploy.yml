@@ -77,7 +77,7 @@ jobs:
         with:
           host: ${{ env.REMOTE_HOST }}
           username: ${{ env.REMOTE_USER }}
-          key: ${{ env.SSH_KEY }}
+          key: ${{ env.SSH_PRIVATE_KEY }}
           source: regretboard.tar.gz
           target: /home/ubuntu/
 
